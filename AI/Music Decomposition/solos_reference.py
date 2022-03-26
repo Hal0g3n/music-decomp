@@ -256,10 +256,8 @@ class SolosMMFeatures(SolosMM):
         return [sources, frames], [], aux_output
 
 
-
 def make_solos_specs(data_dir, spec_dir):
     """
-
     :param data_dir: '/storage/Datasets/Solos/wav11k'
     :param spec_dir: '/storage/Datasets/Solos/spec11k'
     :return:
