@@ -5,4 +5,3 @@ We use CNN-VAE to act an encoder on the spectrogram. The decoder will be an upsc
 UNET possible? Gradio
 
 [Solos Dataset](https://www.juanmontesinos.com/Solos/)
-[Drive Link]()
