@@ -16,7 +16,6 @@ class VerticalScrolledFrame(Frame):
     * Use the 'interior' attribute to place widgets inside the scrollable frame
     * Construct and pack/place/grid normally
     * This frame only allows vertical scrolling
-
     (I totally did not copy this online)
     """
     def __init__(self, parent, *args, **kw):
@@ -27,7 +26,7 @@ class VerticalScrolledFrame(Frame):
         vscrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
         canvas = Canvas(self, bd=0, highlightthickness=0,
                         yscrollcommand=vscrollbar.set)
-        canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
+        canvas.pack(side=BOTTOM, fill=BOTH, expand=TRUE)
         vscrollbar.config(command=canvas.yview)
 
         # reset the view
@@ -59,7 +58,7 @@ class VerticalScrolledFrame(Frame):
 class CardView(ttk.Frame):
     def __init__(self, parent, instrument):
         super().__init__(parent)
-        self.pack(fill=X)
+        self.pack(fill=X, expand=1)
 
         # Initialise the label for instrument name
         instrumentLabel = Label(self, text = instrument)
@@ -67,11 +66,11 @@ class CardView(ttk.Frame):
 
         # Initialise the button to save audio
         audioButton = ttk.Button(self, text="Save Audio", command=self.saveAudio)
-        audioButton.pack(side=LEFT)
-        
+        audioButton.pack(side="left")
+
         # Initialise the button to save sheet music
         sheetButton = ttk.Button(self, text="Save Sheet", command=self.saveSheet)
-        sheetButton.pack(side=LEFT)
+        sheetButton.pack(side="left")
 
     def saveAudio(self): pass
         # save() ...
@@ -80,40 +79,94 @@ class CardView(ttk.Frame):
         # save() ...
 
 
-class MainFrame(VerticalScrolledFrame):
-    def __init__(self, parent, init_url = ''):
+class ButtonMenu(ttk.Frame):
+    def __init__(self, parent):
         super().__init__(parent)
-        self.pack(fill=BOTH, expand=1)
+        self.pack(side=TOP)
+
+        self.parent = parent
+        self.root = self._nametowidget(parent.winfo_parent())
 
         # Variable for file URL
-        self.url = StringVar(init_url)
+        self.url = StringVar(self, "")
 
-        # Button for selecting music file
-        openButton = ttk.Button(self.interior, text = "Open Music File", command=self.open)
-        openButton.pack(side=TOP)
+        self.isPaused = BooleanVar(self, False)
+        self.isPlaying = BooleanVar(self, False)
 
-        # Button for playing the selected music
-        playButton = ttk.Button(self.interior, text="Play Music File", command=self.play)
-        playButton.pack()
+        self.openButton = ttk.Button(self, text = "Open Music File", command=self.open)
+        self.openButton.pack(side=LEFT)
 
-        # Button to start the decomposition
-        showButton = ttk.Button(self.interior, text="Decompose Music", command=self.decompose)
-        showButton.pack(side=TOP)
+        self.playButton = ttk.Button(self, text="Play Music File", command=self.play)
+        self.playButton.pack(side=LEFT)
+
+        self.pauseButton = ttk.Button(self, text="Pause Music File", command=self.pause)
+        self.pauseButton["state"] = "disabled"
+        self.pauseButton.pack(side=LEFT)
+
+        self.stopButton = ttk.Button(self, text="Stop Music File", command=self.stop)
+        self.stopButton["state"] = "disabled"
+        self.stopButton.pack(side=LEFT)
+
+        self.showButton = ttk.Button(self, text="Decompose Music File", command=self.decompose)
+        self.showButton.pack(side=LEFT)
+
+        self.urlLabel = ttk.Label(self, text="")
+        self.urlLabel.pack(side=LEFT, padx=6)
 
 
     def open(self):
         # Opens system dialog to select music file
-        openlocation = openfile(parent=self.parent, title="Select music file to open:")
+        openlocation = openfile(parent=self.root, title="Select music file to open:")
 
         # Set Path Variable
         self.url.set(openlocation)
 
+        
+        self.urlLabel["text"] = openlocation.split("/")[-1]
+
 
     def play(self):
         # Plays the audio
-        mixer.music.load(self.url.get())
-        mixer.music.play()
-  
+        if self.isPaused.get():
+            pause()
+
+        elif len(self.url.get()) and not self.isPlaying.get():
+            mixer.music.load(self.url.get())
+            mixer.music.play()
+            self.isPlaying.set(True)
+            self.playButton["state"] = "disabled"
+            self.pauseButton["state"] = "normal"
+            self.stopButton["state"] = "normal"
+
+    def pause(self):
+        if self.isPaused.get():
+            mixer.music.unpause()
+            self.pauseButton["text"] = "Pause Music File"
+            self.stopButton["text"] = "Stop Music File"
+
+        else:
+            mixer.music.pause()
+            self.pauseButton["text"] = "Unpause Music File"
+            self.stopButton["text"] = "Reset Music File"
+
+        self.isPlaying.set(not self.isPlaying.get())
+        self.isPaused.set(not self.isPaused.get())
+
+    def stop(self):
+        if self.isPlaying.get():
+            mixer.music.fadeout(1000)
+
+        elif self.isPaused.get():
+            self.pause()
+            mixer.music.fadeout(0)
+
+        self.pauseButton["state"] = "disabled"
+        self.stopButton["state"] = "disabled"
+        self.playButton["state"] = "normal"
+
+        self.isPlaying.set(False)
+        self.isPaused.set(False)
+
     def decompose(self):
         global results
         runModel(self.url.get())
@@ -121,7 +174,17 @@ class MainFrame(VerticalScrolledFrame):
         # For every instrument, create 2 buttons for it
         # This is so the user can save the seperated audio files
         for i in results:
-            CardView(self.interior, i)
+            CardView(self.parent, i)
+        
+
+
+class MainFrame(VerticalScrolledFrame):
+    def __init__(self, parent, init_url = ''):
+        super().__init__(parent)
+        self.parent = parent
+        self.pack(fill=BOTH, expand=1)
+
+        ButtonMenu(self.interior)
 
 # Driver Code
 if __name__ == "__main__":
