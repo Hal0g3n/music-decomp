@@ -63,6 +63,7 @@ class YouTubeSaverParallel(object):
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             executor.map(partial(self.download_instrument, dataset_dir=dataset_dir, dataset=dataset),
                          ['DoubleBass', 'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin'])
+                         # The other instruments are fully downloaded
 
 
 if __name__ == '__main__':
