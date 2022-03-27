@@ -15,9 +15,7 @@ from Solos import SOLOS_IDS_PATH
 __all__ = ['YouTubeSaverParallel']
 
 
-
 class YouTubeSaverParallel(object):
-    """Load video from YouTube using an auditionDataset.json """
 
     def __init__(self):
         self.outtmpl = '%(id)s.%(ext)s'
@@ -42,7 +40,7 @@ class YouTubeSaverParallel(object):
         with _youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
             for i, video_id in enumerate(dataset[instrument]):
                 try:
-                    ydl.download(['https://www.youtube.com/watch?v=%s' % video_id])
+                    ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
                 except ExtractorError:
                     print('Video unavailable')
                 except DownloadError:
@@ -50,9 +48,9 @@ class YouTubeSaverParallel(object):
                 except OSError:
                     with open(_os.path.join(dataset_dir, 'backup.json'), 'w') as dst_file:
                         _json.dump(dataset, dst_file)
-                    print('Process failed at video {0}, #{1}'.format(video_id, i))
-                    print('Backup saved at {0}'.format(_os.path.join(dataset_dir, 'backup.json')))
-                    ydl.download(['https://www.youtube.com/watch?v=%s' % video_id])
+                    print(f'Process failed at video {video_id}, #{i}')
+                    print(f'Backup saved at {_os.path.join(dataset_dir, "backup.json")}')
+                    ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
 
                 except KeyboardInterrupt:
                     _sys.exit()
@@ -60,10 +58,10 @@ class YouTubeSaverParallel(object):
     def from_json(self, dataset_dir, json_path=SOLOS_IDS_PATH):
         dataset = _json.load(open(json_path))
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=9) as executor:
             executor.map(partial(self.download_instrument, dataset_dir=dataset_dir, dataset=dataset),
                          ['DoubleBass', 'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin'])
-                         # The other instruments are fully downloaded
+            # The other instruments are fully downloaded
 
 
 if __name__ == '__main__':
