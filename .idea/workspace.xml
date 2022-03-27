@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AI/.idea/AI.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Solos" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos" beforeDir="false" afterPath="$PROJECT_DIR$/Solos" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +71,7 @@
       <updated>1648214944796</updated>
       <workItem from="1648214948630" duration="6279000" />
       <workItem from="1648301085989" duration="2644000" />
-      <workItem from="1648348355783" duration="945000" />
+      <workItem from="1648348355783" duration="1866000" />
     </task>
     <servers />
   </component>
