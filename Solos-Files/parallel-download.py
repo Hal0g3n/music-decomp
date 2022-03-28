@@ -39,6 +39,7 @@ class YouTubeSaverParallel(object):
         self.ydl_opts['outtmpl'] = _os.path.join(dataset_dir, instrument, self.outtmpl)
         with _youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
             for i, video_id in enumerate(dataset[instrument]):
+                print(fr"Downloading {instrument}/{video_id}")
                 try:
                     ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
                 except ExtractorError:
@@ -70,4 +71,4 @@ if __name__ == '__main__':
     # USAGE
     # python youtubesaver.py from_json /path_to_your_dst
 ys = YouTubeSaverParallel()
-ys.from_json(r"C:\Users\User\Documents\GitHub\music-decomp\Solos\data_files")
+ys.from_json(r"C:\Users\User\Documents\GitHub\music-decomp\Solos-Files\data_files\videos")
