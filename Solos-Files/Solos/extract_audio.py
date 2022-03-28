@@ -12,10 +12,11 @@ def extract_audio(OR_PATH, DST_PATH):
                      fn=apply_single)
 
 
-for i in ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute',
+for i in ['DoubleBass', 'Flute',
                         'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin']:
     OR_PATH = fr"C:\Users\User\Documents\GitHub\music-decomp\Solos-Files\data_files\videos\{i}"
     DST_PATH = fr"C:\Users\User\Documents\GitHub\music-decomp\Solos-Files\data_files\audio\{i}_Audio"
+    print(i)
     extract_audio(
         OR_PATH,
         DST_PATH)

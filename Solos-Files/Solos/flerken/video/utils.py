@@ -41,8 +41,8 @@ class Tree(object):
         elif not isinstance(name, str):
             raise TypeError("parameter name should be a string. "
                             "Got {}".format(type(name)))
-        elif '.' in name:
-            raise KeyError("parameter name can't contain \".\"")
+        #elif '.' in name:
+        #    raise KeyError("parameter name can't contain \".\"")
         elif name == '':
             raise KeyError("parameter name can't be empty string \"\"")
         elif hasattr(self, name) and name not in self._parameters:
