@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/extract_audio.py" beforeDir="false" afterPath="$PROJECT_DIR$/Solos-Files/Solos/extract_audio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/conditioned-u-net-master/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/conditioned-u-net-master/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/conditioned-u-net-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +33,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="youtubesaver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -70,6 +75,7 @@
       <workItem from="1648214948630" duration="6279000" />
       <workItem from="1648301085989" duration="2644000" />
       <workItem from="1648348355783" duration="3453000" />
+      <workItem from="1648474721107" duration="1735000" />
     </task>
     <servers />
   </component>
@@ -86,6 +92,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
