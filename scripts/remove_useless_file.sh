@@ -16,3 +16,8 @@ for i in $(find -regex "^\.\/data/\..*$")
 do 
     rm -v $i
 done
+
+for i in $(find -regex "\./data/.*\.mp4")
+do
+    rm -v $i
+done
