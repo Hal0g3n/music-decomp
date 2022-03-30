@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" afterDir="false" />
     </list>
@@ -131,7 +130,7 @@
       <workItem from="1648348355783" duration="3453000" />
       <workItem from="1648474721107" duration="1735000" />
       <workItem from="1648512707639" duration="7173000" />
-      <workItem from="1648557267926" duration="7424000" />
+      <workItem from="1648557267926" duration="8558000" />
     </task>
     <servers />
   </component>
@@ -148,7 +147,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -156,16 +154,17 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
+        <line-breakpoint enabled="true" type="jupyter-line">
           <url>notebook://C:/Users/User/Documents/GitHub/music-decomp/AI/Music Decomposition/model_dev.ipynb</url>
-          <line>68</line>
-          <option name="timeStamp" value="1" />
+          <line>66</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="jupyter-exception">
+          <properties exception="BaseException" />
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/setup_py$extract_audio.coverage" NAME="extract_audio Coverage Results" MODIFIED="1648514714395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Solos-Files/Solos" />
-    <SUITE FILE_PATH="coverage/setup_py$convert_to_wav.coverage" NAME="convert_to_wav Coverage Results" MODIFIED="1648617642086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition" />
   </component>
 </project>
