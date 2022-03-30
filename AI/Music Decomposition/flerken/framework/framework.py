@@ -4,12 +4,11 @@ from tqdm import tqdm
 from .experiment import FileManager, Arxiv, experiment_cfg
 from .allocator import Allocator
 from .model import Model
-from .debug import NaNError, InfError, Debugger
+from .debug import NaNError, InfError
 from . import classitems, meters
 
 import os
 import shutil
-import sys
 import datetime
 from functools import partial
 from typing import Union

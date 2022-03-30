@@ -2,9 +2,65 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AI/Music Decomposition/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Solos-Files/data_files/desktop.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/convert_to_wav.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/convert_to_wav.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/_version.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/_version.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/audio/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/audio/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/audio/transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/audio/transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/audiovisual_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/audiovisual_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/dataset_tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/dataset_tools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/hmdb51.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/hmdb51.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/hmdb51_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/hmdb51_json.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/n_frames_ucf101_hmdb51.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/n_frames_ucf101_hmdb51.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/spatial_transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/spatial_transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/target_transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/target_transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/temporal_transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/temporal_transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/datasets/hmdb51/video_jpg_ucf101_hmdb51.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/datasets/hmdb51/video_jpg_ucf101_hmdb51.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/_options.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/_options.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/allocator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/allocator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/classitems.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/classitems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/dataloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/dataloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/debug.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/experiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/framework.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/framework.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/meters.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/meters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/network_initialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/network_initialization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/prueba_exec.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/prueba_exec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/python_inheritance.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/python_inheritance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/pytorchframework.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/pytorchframework.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/reproducibility.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/reproducibility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/sqlite_tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/sqlite_tools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/traceback_gradients.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/traceback_gradients.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/framework/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/framework/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/MixtedConvolutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/MixtedConvolutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/R2Plus1D.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/R2Plus1D.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/ResNet3D.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/ResNet3D.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/UNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/UNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/UNetV2.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/UNetV2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/VGG.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/VGG.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/film.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/film.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/models/sop_unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/models/sop_unet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/transforms/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/transforms/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/transforms/numpy_transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/transforms/numpy_transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/transforms/transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/transforms/transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/utils/losses.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/utils/losses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/utils/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/utils/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/video/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/video/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/video/io.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/video/io.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/video/readers.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/video/readers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Solos-Files/Solos/flerken/video/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/flerken/video/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +101,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -54,6 +111,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition" />
       <recent name="C:\Users\Vikram Ramanathan\Documents\GitHub\music-decomp\AI\Music Decomposition" />
     </key>
   </component>
@@ -122,7 +180,7 @@
       <workItem from="1648348355783" duration="3453000" />
       <workItem from="1648474721107" duration="1735000" />
       <workItem from="1648512707639" duration="7173000" />
-      <workItem from="1648557267926" duration="1331000" />
+      <workItem from="1648557267926" duration="5162000" />
     </task>
     <servers />
   </component>
@@ -146,6 +204,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/setup_py$extract_audio.coverage" NAME="extract_audio Coverage Results" MODIFIED="1648514714395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Solos-Files/Solos" />
-    <SUITE FILE_PATH="coverage/setup_py$convert_to_wav.coverage" NAME="convert_to_wav Coverage Results" MODIFIED="1648598944173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition" />
+    <SUITE FILE_PATH="coverage/setup_py$convert_to_wav.coverage" NAME="convert_to_wav Coverage Results" MODIFIED="1648617642086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition" />
   </component>
 </project>

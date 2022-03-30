@@ -1,8 +1,6 @@
 from typing import List
 
 import librosa
-import librosa.display as disp
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import interp1d
 import torch

@@ -5,7 +5,6 @@ import os
 import uuid
 import numpy as np
 import logging
-import random
 import sys
 import shutil
 import datetime

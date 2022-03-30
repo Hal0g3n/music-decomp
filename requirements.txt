@@ -12,3 +12,12 @@ imageio
 pandas
 tqdm
 setuptools
+torch
+sklearn
+torchvision
+opencv-python
+torchtree
+pydub
+path
+soundfile
+solos
