@@ -17,8 +17,9 @@ for i in ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute',
         #audio = AudioSegment.from_mp3(file)
         print(os.path.abspath(fr"..\..\Solos-Files\data_files\audio\Bassoon_Audio\-0yEIJCnno8.mp3"))
         print(os.path.exists(os.path.abspath(fr"..\..\Solos-Files\data_files\audio\Bassoon_Audio\-0yEIJCnno8.mp3")))
-        audio = AudioSegment.from_mp3(fr"C:\Users\Vikram Ramanathan\Documents\GitHub\music-decomp\Solos-Files\data_files\audio\Bassoon_Audio\-0yEIJCnno8.mp3")
-        audio.export(f"{file[:4]}.wav", format="wav")
+        audio = AudioSegment.from_file(fr"..\..\Solos-Files\data_files\audio\Bassoon_Audio\-0yEIJCnno8.mp3", format="mp3")
+        print(f"{file[:-4]}.wav")
+        audio.export(f"{file[:-4]}.wav", format="wav")
         break
     print(files)
 
