@@ -23,6 +23,6 @@ def convert(instrument, ROOT):
 ROOT = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..' + os.sep + '..'))
 if __name__ ==  '__main__':
     pool = mp.Pool(6)
-    results = [pool.apply(convert, args=(instrument, ROOT)) for instrument in ['Cello', 'Clarinet', 'DoubleBass', 'Flute',
+    results = [pool.apply(convert, args=(instrument, ROOT)) for instrument in ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute',
                         'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin']]
     pool.close()
