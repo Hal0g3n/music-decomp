@@ -9,9 +9,11 @@ from keras import activations
 
 
 class Unet(Model):
-    def __init__(self, training=True):
+    def get_config(self):
+        super(self).get_config()
+
+    def __init__(self):
         super().__init__()
-        self.training = training
         self.inputs = layers.Input(shape=(512, 512, 1))
         self.layer_1 = partial(self.downsample, n_filters=16, dropout=True)
         self.layer_2 = partial(self.downsample, n_filters=32, dropout=True)
@@ -20,8 +22,8 @@ class Unet(Model):
         self.layer_5 = partial(self.downsample, n_filters=256, dropout=False)
         self.layer_6 = partial(self.downsample, n_filters=512, dropout=False)
 
-        self.layer_7 = layers.Conv2D(1024, (4, 4), output_padding=1, activation="relu",
-                                     kernel_initializer="he_normal")
+        self.layer_7_1 = layers.LeakyReLU()
+        self.layer_7_2 = layers.Conv2D(512, (4, 4), padding="same", kernel_initializer="he_normal")
 
         self.layer_8 = partial(self.upsample, n_filters=512, dropout=False)
         self.layer_9 = partial(self.upsample, n_filters=256, dropout=False)
@@ -30,55 +32,62 @@ class Unet(Model):
         self.layer_12 = partial(self.upsample, n_filters=32, dropout=True)
         self.layer_13 = partial(self.upsample, n_filters=16, dropout=True)
 
-    def call(self, x):
-        x = self.layer_1(x, self.training)
+    def call(self, x, training=False, mask=None):
+        x, out_1 = self.layer_1(x, training=training)
         print(x.shape)
-        x = self.layer_2(x, self.training)
+        x, out_2 = self.layer_2(x, training=training)
         print(x.shape)
-        x = self.layer_3(x, self.training)
+        x, out_3 = self.layer_3(x, training=training)
         print(x.shape)
-        x = self.layer_4(x, self.training)
+        x, out_4 = self.layer_4(x, training=training)
         print(x.shape)
-        x = self.layer_5(x, self.training)
+        x, out_5 = self.layer_5(x, training=training)
         print(x.shape)
-        x = self.layer_6(x, self.training)
-        print(x.shape)
-
-        x = self.layer_7(x, self.training)
+        x, out_6 = self.layer_6(x, training=training)
         print(x.shape)
 
-        x = self.layer_8(x, self.training)
+        x = self.layer_7_1(x)
+        x = self.layer_7_2(x)
         print(x.shape)
-        x = self.layer_9(x, self.training)
+        print(out_6.shape)
+
+        x = self.layer_8(x, out_6, training=training)
         print(x.shape)
-        x = self.layer_10(x, self.training)
+        x = self.layer_9(x, out_5, training=training)
         print(x.shape)
-        x = self.layer_11(x, self.training)
+        x = self.layer_10(x, out_4, training=training)
         print(x.shape)
-        x = self.layer_12(x, self.training)
+        x = self.layer_11(x, out_3, training=training)
         print(x.shape)
-        x = self.layer_13(x, self.training)
+        x = self.layer_12(x, out_2, training=training)
+        print(x.shape)
+        x = self.layer_13(x, out_1, training=training)
         print(x.shape)
         return x
 
+    def downsample(self, x, n_filters=16, training=False, dropout=False):
+        orig_features = layers.LeakyReLU()(x)
+        pass_on = layers.ZeroPadding2D(padding=1)(orig_features)
+        pass_on = layers.Conv2D(n_filters, (4, 4), strides=2, activation="relu", padding="valid",
+                                      kernel_initializer="he_normal")(pass_on)
 
-    def downsample(self, x, n_filters, dropout=False):
-        pass_on = layers.LeakyReLU()(x)
-        pass_on = layers.Conv2D(n_filters, (4, 4), output_padding=1, strides=2, activation="relu",
-                                kernel_initializer="he_normal")(pass_on)
-
-        pass_on = layers.BatchNormalization(pass_on, self.training)
+        pass_on = layers.BatchNormalization()(pass_on, training)
         if dropout:
             pass_on = layers.Dropout(0.4)(pass_on)
-        return pass_on
+        return pass_on, orig_features
 
-    def upsample(self, x, orig_features, n_filters, dropout=False):
+    def upsample(self, x, orig_features, n_filters=16, training=False, dropout=False):
         upsampled = layers.LeakyReLU()(x)
-        upsampled = layers.Conv2DTranspose(n_filters, (3, 3), output_padding=1, strides=1,
-                                           kernel_initializer="he_normal")(upsampled)
-        upsampled = layers.BatchNormalization(upsampled, self.training)
-        upsampled = layers.UpSampling2D(2)(upsampled)
-        upsampled = layers.concatenate((upsampled, orig_features))
+        upsampled = layers.UpSampling2D(size=2, interpolation="bilinear")(upsampled)
+        upsampled = layers.Conv2DTranspose(n_filters, (3, 3), strides=1, padding="same", kernel_initializer="he_normal")(upsampled)
+        upsampled = layers.BatchNormalization()(upsampled, training)
+        upsampled = layers.concatenate((upsampled, orig_features), axis=3)
         if dropout:
-            upsampled = layers.Dropout(0.5)(upsampled)
+            upsampled = layers.Dropout(0.4)(upsampled)
         return upsampled
+
+
+model = Unet()
+print(model.__call__(np.random.random((1, 512, 512, 1)),
+                     training=False))  # Yes I know I could just call it, but this makes it obvious what's happening
+model.summary()
