@@ -1,11 +1,6 @@
-import tensorflow
-import tensorflow as tf
-from tensorflow import keras
-from keras import layers, Model
-import matplotlib.pyplot as plt
+from keras import layers, Model, backend
 import numpy as np
 from functools import partial
-from keras import activations
 
 
 class Unet(Model):
@@ -32,7 +27,9 @@ class Unet(Model):
         self.layer_12 = partial(self.upsample, n_filters=32, dropout=True)
         self.layer_13 = partial(self.upsample, n_filters=16, dropout=True)
 
-    def call(self, x, training=False, mask=None):
+    def call(self, x, training=None, mask=None):
+        if training is None:
+            training = backend.learning_phase()
         x, out_1 = self.layer_1(x, training=training)
         print(x.shape)
         x, out_2 = self.layer_2(x, training=training)
@@ -63,31 +60,39 @@ class Unet(Model):
         print(x.shape)
         x = self.layer_13(x, out_1, training=training)
         print(x.shape)
-        return x
+        output = layers.LeakyReLU()(x)
+        output = layers.BatchNormalization()(output, training)
+        output = layers.Conv2D(16, (3, 3), padding="same", kernel_initializer="he_normal")(output)
+        output = layers.BatchNormalization()(output, training)
+        output = layers.Conv2D(13, (1, 1))(output)
+        # This last block is just the end, finishes up translating to an output
+        # I have no idea if this does anything, but it seems like it should
+        print(output.shape)
+        return output
 
     def downsample(self, x, n_filters=16, training=False, dropout=False):
         orig_features = layers.LeakyReLU()(x)
         pass_on = layers.ZeroPadding2D(padding=1)(orig_features)
-        pass_on = layers.Conv2D(n_filters, (4, 4), strides=2, activation="relu", padding="valid",
-                                      kernel_initializer="he_normal")(pass_on)
+        pass_on = layers.Conv2D(n_filters, (4, 4), strides=2, padding="valid",
+                                kernel_initializer="he_normal")(pass_on)
 
         pass_on = layers.BatchNormalization()(pass_on, training)
         if dropout:
-            pass_on = layers.Dropout(0.4)(pass_on)
+            pass_on = layers.Dropout(0.4)(pass_on, training)
         return pass_on, orig_features
 
     def upsample(self, x, orig_features, n_filters=16, training=False, dropout=False):
         upsampled = layers.LeakyReLU()(x)
         upsampled = layers.UpSampling2D(size=2, interpolation="bilinear")(upsampled)
-        upsampled = layers.Conv2DTranspose(n_filters, (3, 3), strides=1, padding="same", kernel_initializer="he_normal")(upsampled)
+        upsampled = layers.Conv2DTranspose(n_filters, (3, 3), strides=1, padding="same",
+                                           kernel_initializer="he_normal")(upsampled)
         upsampled = layers.BatchNormalization()(upsampled, training)
         upsampled = layers.concatenate((upsampled, orig_features), axis=3)
         if dropout:
-            upsampled = layers.Dropout(0.4)(upsampled)
+            upsampled = layers.Dropout(0.4)(upsampled, training)
         return upsampled
 
 
 model = Unet()
-print(model.__call__(np.random.random((1, 512, 512, 1)),
-                     training=False))  # Yes I know I could just call it, but this makes it obvious what's happening
+print(model.__call__(np.random.random((1, 512, 256, 1)), training=False))  # Yes I know I could just call it, but this makes it obvious what's happening
 model.summary()

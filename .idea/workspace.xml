@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AI/Music Decomposition/music_decomp_data_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,10 +58,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/AI/Music Decomposition" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition" />
       <recent name="C:\Users\Vikram Ramanathan\Documents\GitHub\music-decomp\AI\Music Decomposition" />
@@ -195,7 +200,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py</url>
-          <line>79</line>
+          <line>84</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
@@ -216,6 +221,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/setup_py$extract_audio.coverage" NAME="extract_audio Coverage Results" MODIFIED="1648514714395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Solos-Files/Solos" />
     <SUITE FILE_PATH="coverage/setup_py$convert_to_wav.coverage" NAME="convert_to_wav Coverage Results" MODIFIED="1648633655980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition" />
-    <SUITE FILE_PATH="coverage/setup_py$decomp_implimentation.coverage" NAME="decomp_implimentation Coverage Results" MODIFIED="1648735838185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation" />
+    <SUITE FILE_PATH="coverage/setup_py$decomp_implimentation.coverage" NAME="decomp_implimentation Coverage Results" MODIFIED="1648823363852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation" />
   </component>
 </project>
