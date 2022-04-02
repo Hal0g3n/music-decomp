@@ -1,5 +1,4 @@
 from keras import layers, Model, backend
-import numpy as np
 from functools import partial
 
 
@@ -91,8 +90,3 @@ class Unet(Model):
         if dropout:
             upsampled = layers.Dropout(0.4)(upsampled, training)
         return upsampled
-
-
-model = Unet()
-print(model.__call__(np.random.random((1, 256, 512, 1)), training=False))  # Yes I know I could just call it, but this makes it obvious what's happening
-model.summary()

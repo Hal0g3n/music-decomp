@@ -10,10 +10,6 @@ import random
 import numpy as np
 import os
 import soundfile as sf
-import regex
-from librosa import *
-
-#os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 
 class SolosDataGenerator(Sequence):
@@ -101,7 +97,7 @@ class SolosDataGenerator(Sequence):
     def __len__(self):
         # No of batches per epoch
         # return 8000 if self.type == "train" else 2000
-        return 8  # 256 iterations per epoch is probably enough, right
+        return 16 if self.type == "train" else 4  # 512 iterations per epoch is probably enough, right
 
     def __generate_individual_data(self):
         # This, if it works properly, should basically randomly mix a bunch of sources
@@ -180,9 +176,3 @@ class SolosDataGenerator(Sequence):
         # y = spectrograms[:, :13, :, :, :]
 
         return spectrograms[:, 13:, :, :, :], spectrograms[:, :13, :, :, :]
-
-
-dm = SolosDataGenerator(os.path.abspath(r"..\..\Solos-Files\data_files\audio_wav"))
-out = dm[0]
-print(out[0], out[0].shape)
-
