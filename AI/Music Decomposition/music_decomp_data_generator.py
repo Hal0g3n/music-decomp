@@ -1,3 +1,5 @@
+import re
+
 import librosa
 import tensorflow as tf
 from keras.utils.data_utils import Sequence
@@ -8,6 +10,7 @@ import random
 import numpy as np
 import os
 import soundfile as sf
+import regex
 from librosa import *
 
 #os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -15,7 +18,7 @@ from librosa import *
 
 class SolosDataGenerator(Sequence):
     def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=5, train_test_split=0.8,
-                 batch_size=32):
+                 batch_size=32, load_into_ram=False):
         # The paper sets mix_no_max to 7, but who has 7 different instruments in a normal song
 
         self.data_dir = data_dir
@@ -26,6 +29,7 @@ class SolosDataGenerator(Sequence):
         self.mix_sources_max_no = mix_sources_max_no
         self.train_test_split = train_test_split
         self.batch_size = batch_size
+        self.load_into_ram = load_into_ram
 
         self.n_instruments = 13
         self.sources = ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute',
@@ -46,7 +50,8 @@ class SolosDataGenerator(Sequence):
         self.window = "hann"
 
         self.data = {}
-        self.load_data()
+        if self.load_into_ram:
+            self.load_data()
 
         # We will be taking the results seen in papers at face value,
         # and using normalised linearised Fourier Transform Spectrogram, and Wiener post processing,
@@ -64,8 +69,8 @@ class SolosDataGenerator(Sequence):
         meta = dict(
             [(source, sorted(list((Path(self.data_dir) / (source + "_wav")).glob(suffix)))) for source in self.sources])
         # A little hard to parse, but here we go
-        # Makes "meta" a dict containing a tuple. The first element is the type of source, i.e. viola, trumpet, etc
-        # The second is a sorted list of all files in the data directory that match the pattern of source.wav
+        # Makes "meta" a dict. The first key is the type of source, i.e. viola, trumpet, etc
+        # The value is a sorted list of all files in the data directory that match the pattern of source.wav
         # (.glob is an operation that yields all file paths matching the pattern)
 
 
@@ -75,7 +80,7 @@ class SolosDataGenerator(Sequence):
                 meta[source] = meta[source][: int(self.train_test_split * source_len)]
             else:
                 meta[source] = meta[source][int(self.train_test_split * source_len):]
-            # Literally just a slightly clumsy train test split
+            # Literally just a train test split
 
             for path_index, path in enumerate(meta[source]):
                 meta[source][path_index] = (path, sf.info(path).frames)  # .as_posix() doesn't work on WindowsPath
@@ -92,8 +97,6 @@ class SolosDataGenerator(Sequence):
                     sf.read(filename)[0]  # Audio stored as a tensor, no idea if this is going to work
                 ))  # For debugging
             self.data[source] = temp.copy()
-            if i > 10:
-                return
 
     def __len__(self):
         # No of batches per epoch
@@ -102,13 +105,12 @@ class SolosDataGenerator(Sequence):
 
     def __generate_individual_data(self):
         # This, if it works properly, should basically randomly mix a bunch of sources
+
         instrument_no = random.randint(self.mix_no_min, self.mix_no_max)
         sources = np.zeros((self.n_instruments + 1, self.audio_len))
 
         source_indices = np.random.choice(list(range(self.n_instruments)), size=instrument_no, replace=False,
                                           p=np.array(self.source_weights) / sum(self.source_weights))
-
-        source_indices = [0]
         # Returns a randomly selected set of indices of sources, with weights given by source weights
 
         audio_output = np.zeros(self.n_instruments)  # This does not include the extra term below
@@ -117,13 +119,18 @@ class SolosDataGenerator(Sequence):
 
         for instrument in source_indices:  # Note that instrument is an int referring to the instrument index
             audio_output[instrument] = 1  # One-hot encoded record of which sources are included
-            audio_source_indices.append(instrument)  # The paper does instrument +1 here, no idea why
-            source_in_question = self.sources[instrument]  # Actual instrument
-            sample_selected = random.randrange(0, len(
-                self.data[source_in_question]))  # Picks a random source for the instrument
+            audio_source_indices.append(instrument)
+            actual_instrument = self.sources[instrument]  # Like, the instrument name
+            if not self.load_into_ram:
+                filename, length = random.choice(self.metadata[actual_instrument])
+                sample_selected = tf.constant(sf.read(filename)[0])
+            else:
+                sample_index = random.randrange(0, len(
+                    self.data[actual_instrument]))  # Picks a random source for the instrument
+                sample_selected = self.data[actual_instrument][sample_index]
 
-            start_pos = random.randrange(0, len(self.data[source_in_question][sample_selected]) - self.audio_len)
-            sources[instrument] = self.data[source_in_question][sample_selected][start_pos:start_pos + self.audio_len]
+            start_pos = random.randrange(0, len(sample_selected) - self.audio_len)
+            sources[instrument] = sample_selected[start_pos:start_pos + self.audio_len]
 
             smax, smin = sources[instrument].max(), sources[instrument].min()
             # Finds max and min values of that sample
