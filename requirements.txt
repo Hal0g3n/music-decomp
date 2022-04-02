@@ -1,6 +1,7 @@
 Fire
 youtube_dl
 googledrivedownloader
+librosa
 numpy
 pillow
 future
@@ -19,6 +20,7 @@ opencv-python
 torchtree
 pydub
 path
+pretty_midi
 soundfile
 solos
 tensorflow
