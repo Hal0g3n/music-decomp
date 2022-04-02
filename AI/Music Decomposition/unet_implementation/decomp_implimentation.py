@@ -94,5 +94,5 @@ class Unet(Model):
 
 
 model = Unet()
-print(model.__call__(np.random.random((1, 512, 256, 1)), training=False))  # Yes I know I could just call it, but this makes it obvious what's happening
+print(model.__call__(np.random.random((1, 256, 512, 1)), training=False))  # Yes I know I could just call it, but this makes it obvious what's happening
 model.summary()

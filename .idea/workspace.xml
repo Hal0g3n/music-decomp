@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AI/Music Decomposition/music_decomp_data_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Solos-Files/data_files/videos.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/convert_to_wav.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/convert_to_wav.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/music_decomp_data_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/music_decomp_data_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Sheet Music/testing.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Sheet Music/testing.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +73,7 @@
       <recent name="C:\Users\Vikram Ramanathan\Documents\GitHub\music-decomp\AI\Music Decomposition" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.decomp_implimentation">
+  <component name="RunManager" selected="Python.convert_to_wav">
     <configuration name="convert_to_wav" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="music-decomp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -139,8 +142,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.decomp_implimentation" />
         <item itemvalue="Python.convert_to_wav" />
+        <item itemvalue="Python.decomp_implimentation" />
         <item itemvalue="Python.extract_audio" />
       </list>
     </recent_temporary>
@@ -183,21 +186,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="jupyter-line">
-          <url>notebook://C:/Users/User/Documents/GitHub/music-decomp/AI/Music Decomposition/model_dev.ipynb</url>
-          <line>32</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/User/Documents/GitHub/music-decomp/AI/Music Decomposition/model_dev.ipynb</url>
-          <line>33</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook://C:/Users/User/Documents/GitHub/music-decomp/AI/Music Decomposition/model_dev.ipynb</url>
-          <line>35</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py</url>
           <line>84</line>
@@ -220,7 +208,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/setup_py$extract_audio.coverage" NAME="extract_audio Coverage Results" MODIFIED="1648514714395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Solos-Files/Solos" />
-    <SUITE FILE_PATH="coverage/setup_py$convert_to_wav.coverage" NAME="convert_to_wav Coverage Results" MODIFIED="1648633655980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition" />
-    <SUITE FILE_PATH="coverage/setup_py$decomp_implimentation.coverage" NAME="decomp_implimentation Coverage Results" MODIFIED="1648823363852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation" />
+    <SUITE FILE_PATH="coverage/setup_py$convert_to_wav.coverage" NAME="convert_to_wav Coverage Results" MODIFIED="1648863574401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition" />
+    <SUITE FILE_PATH="coverage/setup_py$decomp_implimentation.coverage" NAME="decomp_implimentation Coverage Results" MODIFIED="1648863531654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation" />
   </component>
 </project>

@@ -1,3 +1,4 @@
+import librosa
 import tensorflow as tf
 from keras.utils.data_utils import Sequence
 from tensorflow import keras
@@ -7,11 +8,12 @@ import random
 import numpy as np
 import os
 import soundfile as sf
+from librosa import *
 
 
 class SolosDataGenerator(Sequence):
     def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=7, train_test_split=0.8,
-                 batch_size=32):
+                 batch_size=64):
 
         self.data_dir = data_dir
         self.type = training
@@ -35,10 +37,11 @@ class SolosDataGenerator(Sequence):
         self.log_sample_n = 256  # TODO No idea what this does, I'll figure it out later
         self.segment_len = 256
         self.energy_predicted_sum = 1e-4
-        self.dummy_spectrogram_size = (14, 2, 512, 256)  # For tests
+        self.dummy_spectrogram_size = (14, 256, 512, 2)
+        # Note that the raw spectrogram is of shape (2, 512, 256) and needs to have axes 1 and 3 swapped
 
         self.metadata = self.load_meta()
-        self.window = tf.signal.hann_window(self.ft_hop_size)
+        self.window = "hann"
 
         self.data = {}
         self.load_data()
@@ -90,9 +93,11 @@ class SolosDataGenerator(Sequence):
 
     def __len__(self):
         # No of batches per epoch
-        return 8000 if self.type == "train" else 2000
+        # return 8000 if self.type == "train" else 2000
+        return 4  # 256 iterations per epoch is probably enough, right
 
-    def __generate_data_individual(self):  # This, if it works properly, should basically randomly mix a bunch of sources
+    def __generate_individual_data(self):
+        # This, if it works properly, should basically randomly mix a bunch of sources
         instrument_no = random.randint(self.mix_no_min, self.mix_no_max)
         sources = np.zeros((self.n_instruments + 1, self.audio_len))
 
@@ -100,17 +105,18 @@ class SolosDataGenerator(Sequence):
                                           p=np.array(self.source_weights) / sum(self.source_weights))
         # Returns a randomly selected set of indices of sources, with weights given by source weights
 
-        audio_output = np.zeros(self.n_instruments)
-        audio_source_indices = [0]
+        audio_output = np.zeros(self.n_instruments)  # This does not include the extra term below
+        audio_source_indices = [
+            self.n_instruments]  # This, however, always includes an extra term, that being the average of all inputs
 
-        for instrument in source_indices:  # Note that instrument is an int referrering to the instrument index
+        for instrument in source_indices:  # Note that instrument is an int referring to the instrument index
             audio_output[instrument] = 1  # One-hot encoded record of which sources are included
             audio_source_indices.append(instrument)  # The paper does instrument +1 here, no idea why
             source_in_question = self.sources[instrument]  # Actual instrument
-            sample_selected = random.randrange(
-                len(self.data[source_in_question]))  # Picks a random source for the instrument
-            start_pos = random.randrange(len(self.data[source_in_question][instrument]) - self.audio_len)
+            sample_selected = random.randrange(0, len(
+                self.data[source_in_question]))  # Picks a random source for the instrument
 
+            start_pos = random.randrange(0, len(self.data[source_in_question][sample_selected]) - self.audio_len)
             sources[instrument] = self.data[source_in_question][sample_selected][start_pos:start_pos + self.audio_len]
 
             smax, smin = sources[instrument].max(), sources[instrument].min()
@@ -120,11 +126,43 @@ class SolosDataGenerator(Sequence):
                 sources[instrument] = (sources[instrument] - smin) / (smax - smin) * 2 - 1
             # TODO Fix this damn normalisation
 
-        sources[self.n_instruments + 1] = sum(sources) / instrument_no
-        # More crappy normalisation, you love to see it
-        # It's literally the "average loudness", I don't know what to expect
+        sources[self.n_instruments] = sum(sources) / instrument_no
+        # Smushed waveforms, you can just do that with wav, it turns out
+
+        # Note that audio_output is 0 indexed
 
         return sources, audio_output, audio_source_indices
 
-    def __generate_data_batch(self):
-        x = np.empty()
+    def __process_data(self, sources, sources_indices):
+        # Where sources is an list of batch_size samples
+        # And Source_indices is a list of arrays of what instruments are in the source
+        spectrograms = tf.Variable(0., shape=(self.batch_size, *self.dummy_spectrogram_size))
+
+        for source_index, sample in enumerate(sources):
+            for audio_index in sources_indices[source_index]:
+                sample_stft = librosa.stft(sample[audio_index], n_fft=self.ft_window_size, hop_length=self.ft_hop_size,
+                                           window=self.window)
+                magnitude, phase = librosa.magphase(sample_stft)
+                magnitude = np.swapaxes(magnitude, 1, 3)
+                phase = np.swapaxes(phase, 1, 3)
+                spectrograms[source_index, audio_index, :, :, 0] = magnitude + self.energy_predicted_sum
+                spectrograms[source_index, audio_index, :, :, 1] = phase
+        return spectrograms  # First 13 spectrograms in axis 2 (ok axis 1 but we don't care) are y, the 14th is x
+
+    def __getitem__(self, item):
+        # x = np.empty((self.batch_size, 1, 256, 512, 2))
+        # y = np.empty((self.batch_size, 13, 256, 512, 2))
+
+        sources = []
+        sources_indices = []
+        for i in range(self.batch_size):
+            source, _, source_index = self.__generate_individual_data()
+            sources.append(source)
+            sources_indices.append(source_index)
+
+        spectrograms = self.__process_data(sources, sources_indices)
+
+        # x = spectrograms[:, 13:, :, :, :]
+        # y = spectrograms[:, :13, :, :, :]
+
+        return spectrograms[:, 13:, :, :, :], spectrograms[:, :13, :, :, :]
