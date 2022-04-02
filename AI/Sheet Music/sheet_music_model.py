@@ -48,10 +48,9 @@ def createMIDI(song, rate, instrument, actlProb, onProb = None, volProb = None, 
     # End the pitch, adding the note to the MIDI object
     def EndPitch(pitch, endFrame):
         # Add note interval to MIDI object
-        track.notes += [pm.Note(int(volProb[intervals[pitch], pitch] * 80 + 10), pitch + 21,
+        track.notes += [pm.Note(int(volProb[intervals[pitch], pitch] * 80 + 10), pitch + 24,
                                 intervals[pitch] * frameLenSecs, endFrame * frameLenSecs)]
-        print(librosa.midi_to_note(pitch), intervals[pitch], endFrame)
-
+                                
         # To remove indication that it has an interval head
         del intervals[pitch]
 
