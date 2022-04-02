@@ -11,10 +11,9 @@ import numpy as np
 import os
 import soundfile as sf
 
-
 class SolosDataGenerator(Sequence):
     def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=5, train_test_split=0.8,
-                 batch_size=32, load_into_ram=False):
+                 batch_size=1, load_into_ram=False):
         # The paper sets mix_no_max to 7, but who has 7 different instruments in a normal song
 
         self.data_dir = data_dir
@@ -40,7 +39,7 @@ class SolosDataGenerator(Sequence):
         self.log_sample_n = 256  # TODO No idea what this does, I'll figure it out later
         self.energy_predicted_sum = 1e-4
         self.dummy_spectrogram_size = (14, 256, 512, 2)
-        # Note that the raw spectrogram is of shape (2, 512, 256) and needs to have axes 1 and 3 swapped
+        # Note that the raw spectrogram is of shape (512, 256) and needs to be transposed
 
         self.metadata = self.load_meta()
         self.window = "hann"
@@ -157,7 +156,19 @@ class SolosDataGenerator(Sequence):
                 phase = phase.T
                 spectrograms[source_index, audio_index, :, :, 0] = magnitude + self.energy_predicted_sum
                 spectrograms[source_index, audio_index, :, :, 1] = phase
-        return spectrograms  # First 13 spectrograms in axis 2 (ok axis 1 but we don't care) are y, the 14th is x
+        self.spectrograms = spectrograms
+        # First 13 spectrograms in axis 2 (ok axis 1 but we don't care) are y, the 14th is x
+
+    def _compute_masks(self):
+
+        sources = self.spectrograms[:, :13, :, :, 0]
+        x = self.spectrograms[:, 13, :, :, :1]
+        # x = np.expand_dims(x, axis=1)
+
+        y = sources / np.expand_dims(np.sum(sources, axis=1), axis=1)
+        y = np.swapaxes(y, 1, 2)
+        y = np.swapaxes(y, 2, 3)
+        return x, y
 
     def __getitem__(self, item):
         # x = np.empty((self.batch_size, 1, 256, 512, 2))
@@ -170,9 +181,9 @@ class SolosDataGenerator(Sequence):
             sources.append(source)
             sources_indices.append(source_index)
 
-        spectrograms = self.__process_data(sources, sources_indices)
+        self.__process_data(sources, sources_indices)
 
         # x = spectrograms[:, 13:, :, :, :]
         # y = spectrograms[:, :13, :, :, :]
 
-        return spectrograms[:, 13:, :, :, :], spectrograms[:, :13, :, :, :]
+        return self._compute_masks()
