@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f4e6151-c558-4781-b240-ebefaf611c23" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Solos-Files/data_files/videos.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/convert_to_wav.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/convert_to_wav.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/model_dev.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/music_decomp_data_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/music_decomp_data_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Music Decomposition/unet_implementation/decomp_implimentation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/Sheet Music/testing.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/AI/Sheet Music/testing.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -163,6 +160,7 @@
       <workItem from="1648512707639" duration="7173000" />
       <workItem from="1648557267926" duration="8558000" />
       <workItem from="1648630081065" duration="1342000" />
+      <workItem from="1648901164257" duration="1350000" />
     </task>
     <servers />
   </component>

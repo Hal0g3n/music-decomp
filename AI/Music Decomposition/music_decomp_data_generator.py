@@ -12,8 +12,9 @@ from librosa import *
 
 
 class SolosDataGenerator(Sequence):
-    def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=7, train_test_split=0.8,
+    def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=5, train_test_split=0.8,
                  batch_size=64):
+        # The paper sets mix_no_max to 7, but who has 7 different instruments in a normal song
 
         self.data_dir = data_dir
         self.type = training
@@ -136,15 +137,15 @@ class SolosDataGenerator(Sequence):
     def __process_data(self, sources, sources_indices):
         # Where sources is an list of batch_size samples
         # And Source_indices is a list of arrays of what instruments are in the source
-        spectrograms = tf.Variable(0., shape=(self.batch_size, *self.dummy_spectrogram_size))
+        spectrograms = np.zeros((self.batch_size, *self.dummy_spectrogram_size))
 
         for source_index, sample in enumerate(sources):
             for audio_index in sources_indices[source_index]:
                 sample_stft = librosa.stft(sample[audio_index], n_fft=self.ft_window_size, hop_length=self.ft_hop_size,
                                            window=self.window)
                 magnitude, phase = librosa.magphase(sample_stft)
-                magnitude = np.swapaxes(magnitude, 1, 3)
-                phase = np.swapaxes(phase, 1, 3)
+                magnitude = magnitude.T
+                phase = phase.T
                 spectrograms[source_index, audio_index, :, :, 0] = magnitude + self.energy_predicted_sum
                 spectrograms[source_index, audio_index, :, :, 1] = phase
         return spectrograms  # First 13 spectrograms in axis 2 (ok axis 1 but we don't care) are y, the 14th is x
