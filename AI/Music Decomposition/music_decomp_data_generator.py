@@ -10,10 +10,12 @@ import os
 import soundfile as sf
 from librosa import *
 
+#os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 
 class SolosDataGenerator(Sequence):
     def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=5, train_test_split=0.8,
-                 batch_size=64):
+                 batch_size=32):
         # The paper sets mix_no_max to 7, but who has 7 different instruments in a normal song
 
         self.data_dir = data_dir
@@ -33,10 +35,9 @@ class SolosDataGenerator(Sequence):
         self.down_freq = 8000  # Downsample to this frequency
         self.audio_len = 48000  # No of audio samples in each 'snapshot'
         self.ft_window_size = 1022
-        self.ft_hop_size = 256
+        self.ft_hop_size = 188  # The paper says that I should use 256, but that just doesn't work
         self.epsilon = 1e-9
         self.log_sample_n = 256  # TODO No idea what this does, I'll figure it out later
-        self.segment_len = 256
         self.energy_predicted_sum = 1e-4
         self.dummy_spectrogram_size = (14, 256, 512, 2)
         # Note that the raw spectrogram is of shape (2, 512, 256) and needs to have axes 1 and 3 swapped
@@ -67,6 +68,7 @@ class SolosDataGenerator(Sequence):
         # The second is a sorted list of all files in the data directory that match the pattern of source.wav
         # (.glob is an operation that yields all file paths matching the pattern)
 
+
         for source in meta:
             source_len = len(meta[source])
             if self.type:  # True means that it's training
@@ -77,25 +79,26 @@ class SolosDataGenerator(Sequence):
 
             for path_index, path in enumerate(meta[source]):
                 meta[source][path_index] = (path, sf.info(path).frames)  # .as_posix() doesn't work on WindowsPath
-        print(meta)  # For debugging
 
         return meta
 
     def load_data(self):
+        i = 0
         for source in self.metadata:
+            i = i + 1
             temp = []
             for filename, length in self.metadata[source]:
                 temp.append(tf.constant(
                     sf.read(filename)[0]  # Audio stored as a tensor, no idea if this is going to work
-                ))
-                print(filename)  # For debugging
+                ))  # For debugging
             self.data[source] = temp.copy()
-        print(self.data)
+            if i > 10:
+                return
 
     def __len__(self):
         # No of batches per epoch
         # return 8000 if self.type == "train" else 2000
-        return 4  # 256 iterations per epoch is probably enough, right
+        return 8  # 256 iterations per epoch is probably enough, right
 
     def __generate_individual_data(self):
         # This, if it works properly, should basically randomly mix a bunch of sources
@@ -104,6 +107,8 @@ class SolosDataGenerator(Sequence):
 
         source_indices = np.random.choice(list(range(self.n_instruments)), size=instrument_no, replace=False,
                                           p=np.array(self.source_weights) / sum(self.source_weights))
+
+        source_indices = [0]
         # Returns a randomly selected set of indices of sources, with weights given by source weights
 
         audio_output = np.zeros(self.n_instruments)  # This does not include the extra term below
@@ -141,6 +146,7 @@ class SolosDataGenerator(Sequence):
 
         for source_index, sample in enumerate(sources):
             for audio_index in sources_indices[source_index]:
+                self.ft_hop_size = 188
                 sample_stft = librosa.stft(sample[audio_index], n_fft=self.ft_window_size, hop_length=self.ft_hop_size,
                                            window=self.window)
                 magnitude, phase = librosa.magphase(sample_stft)
@@ -167,3 +173,9 @@ class SolosDataGenerator(Sequence):
         # y = spectrograms[:, :13, :, :, :]
 
         return spectrograms[:, 13:, :, :, :], spectrograms[:, :13, :, :, :]
+
+
+dm = SolosDataGenerator(os.path.abspath(r"..\..\Solos-Files\data_files\audio_wav"))
+out = dm[0]
+print(out[0], out[0].shape)
+
