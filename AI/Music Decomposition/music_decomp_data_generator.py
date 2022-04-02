@@ -96,7 +96,7 @@ class SolosDataGenerator(Sequence):
     def __len__(self):
         # No of batches per epoch
         # return 8000 if self.type == "train" else 2000
-        return 16 if self.type == "train" else 4  # 512 iterations per epoch is probably enough, right
+        return 16 if self.type else 4  # 512 iterations per epoch is probably enough, right
 
     def __generate_individual_data(self):
         # This, if it works properly, should basically randomly mix a bunch of sources

@@ -1,3 +1,5 @@
+import pickle
+
 import tensorflow as tf
 from tensorflow.python import keras
 from tensorflow.keras.optimizers import Adam
@@ -12,7 +14,7 @@ from keras.utils.data_utils import Sequence
 import matplotlib.pyplot as plt
 import os
 from music_decomp_data_generator import SolosDataGenerator
-import keras.applications.vgg16
+from keras.callbacks import CSVLogger
 
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -35,14 +37,26 @@ print("Model Compiled")
 
 model.summary()
 
+class CustomCheckpoint(tf.keras.callbacks.ModelCheckpoint):
+    def set_model(self, model):
+        self.model = model
+
+saver = CustomCheckpoint(
+    filepath=r"\saved_model\model{epoch}",
+    save_weights_only=False,
+    monitor='val_mse',
+    save_best_only=False
+)
+
+csv_logger = CSVLogger("\saved_model\model_history_log.csv", append=True)
+
 history = model.fit(x=training_gen,
                     validation_data=validation_gen,
                     steps_per_epoch=len(training_gen),
                     validation_steps=len(validation_gen),
                     use_multiprocessing=False,
                     workers=4,
-                    epochs=5,
-                    verbose=1)
+                    epochs=1000,
+                    verbose=1,
+                    callbacks=[saver, csv_logger])
 
-plt.plot(history.history["acc"], label="Training accuracy")
-plt.plot(history.history["val_acc"], label="Testing accuracy")
