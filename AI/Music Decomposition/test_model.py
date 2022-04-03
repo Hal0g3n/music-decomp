@@ -16,7 +16,7 @@ from music_decomp_data_generator import SolosDataGenerator
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 
-model = load_model(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_2")
+model = load_model(os.path.abspath(r"..\..\AI\Music Decomposition\saved_models\models_try_2"))
 # model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4 * 2),
 #               loss=tf.keras.losses.MeanSquaredError(),
 #               metrics=['accuracy', 'mse'])

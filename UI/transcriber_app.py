@@ -8,7 +8,6 @@ import sys
 sys.path.insert(1, '../')
 
 from AI.SheetMusic.math_model import *
-from AI.SheetMusic.math_model import *
 
 
 class VerticalScrolledFrame(Frame):
@@ -16,7 +15,6 @@ class VerticalScrolledFrame(Frame):
     * Use the 'interior' attribute to place widgets inside the scrollable frame
     * Construct and pack/place/grid normally
     * This frame only allows vertical scrolling
-    (I totally did not copy this online)
     """
     def __init__(self, parent, *args, **kw):
         Frame.__init__(self, parent, *args, **kw)            
@@ -171,7 +169,7 @@ if __name__ == "__main__":
     # Pygame mixer for audio playing
     mixer.init()
 
-    messagebox.showinfo(title="Music Transcription", message=f"Transcription Success, saved at {savelocation}", **options)
+    #messagebox.showinfo(title="Music Transcription", message=f"Transcription Success, saved at {savelocation}", **options)
     # Initialise the main frame
     MainFrame(root)
 
