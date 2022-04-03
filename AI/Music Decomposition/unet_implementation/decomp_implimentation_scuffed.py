@@ -9,13 +9,13 @@ class Unet:
         self.layer_1 = partial(self.downsample, n_filters=16, dropout=True)
         self.layer_2 = partial(self.downsample, n_filters=32, dropout=True)
         self.layer_3 = partial(self.downsample, n_filters=64, dropout=True)
-        self.layer_4 = partial(self.downsample, n_filters=128, dropout=False)
-        self.layer_5 = partial(self.downsample, n_filters=256, dropout=False)
-        self.layer_6 = partial(self.downsample, n_filters=512, dropout=False)
+        self.layer_4 = partial(self.downsample, n_filters=128, dropout=True)
+        self.layer_5 = partial(self.downsample, n_filters=256, dropout=True)
+        self.layer_6 = partial(self.downsample, n_filters=512, dropout=True)
 
-        self.layer_8 = partial(self.upsample, n_filters=512, dropout=False)
-        self.layer_9 = partial(self.upsample, n_filters=256, dropout=False)
-        self.layer_10 = partial(self.upsample, n_filters=128, dropout=False)
+        self.layer_8 = partial(self.upsample, n_filters=512, dropout=True)
+        self.layer_9 = partial(self.upsample, n_filters=256, dropout=True)
+        self.layer_10 = partial(self.upsample, n_filters=128, dropout=True)
         self.layer_11 = partial(self.upsample, n_filters=64, dropout=True)
         self.layer_12 = partial(self.upsample, n_filters=32, dropout=True)
         self.layer_13 = partial(self.upsample, n_filters=16, dropout=True)
@@ -53,7 +53,7 @@ class Unet:
 
         pass_on = layers.BatchNormalization()(pass_on)
         if dropout:
-            pass_on = layers.Dropout(0.4)(pass_on)
+            pass_on = layers.Dropout(0.2)(pass_on)
         return pass_on, orig_features
 
     def upsample(self, x, orig_features, n_filters=16, dropout=False):
@@ -64,5 +64,5 @@ class Unet:
         upsampled = layers.BatchNormalization()(upsampled)
         upsampled = layers.concatenate((upsampled, orig_features), axis=3)
         if dropout:
-            upsampled = layers.Dropout(0.4)(upsampled)
+            upsampled = layers.Dropout(0.2)(upsampled)
         return upsampled

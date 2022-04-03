@@ -61,7 +61,7 @@ csv_logger = CSVLogger(os.path.abspath(
 def scheduler(epoch, lr):
     if epoch < 20:
         return lr
-    return lr * 0.98
+    return 10e-5
 
 
 print(model)

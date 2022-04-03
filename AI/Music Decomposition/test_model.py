@@ -5,6 +5,7 @@ import keras
 import os
 from keras import Model
 from keras.models import load_model
+from pytorch2keras import pytorch_to_keras
 
 from music_decomp_data_generator import SolosDataGenerator
 from keras.callbacks import CSVLogger
