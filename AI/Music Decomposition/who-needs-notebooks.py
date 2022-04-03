@@ -16,7 +16,6 @@ import os
 from music_decomp_data_generator import SolosDataGenerator
 from keras.callbacks import CSVLogger
 
-
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 print("Imported 1")
@@ -35,28 +34,48 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4 * 2),
               metrics=['accuracy', 'mse'])
 print("Model Compiled")
 
-model.summary()
+
+# model.summary()
+
 
 class CustomCheckpoint(tf.keras.callbacks.ModelCheckpoint):
     def set_model(self, model):
         self.model = model
 
-saver = CustomCheckpoint(
-    filepath=r"\saved_model\model{epoch}",
-    save_weights_only=False,
-    monitor='val_mse',
-    save_best_only=False
-)
 
-csv_logger = CSVLogger("\saved_model\model_history_log.csv", append=True)
+saver = CustomCheckpoint(
+    filepath=os.path.abspath(
+        r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_try_2"),
+    save_weights_only=True,
+    monitor='val_mse',
+    save_best_only=False,
+    save_freq="epoch"
+)
+print(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_2")
+model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_2")
+csv_logger = CSVLogger(os.path.abspath(
+    r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_history_log.csv"),
+                       append=True)
+
+
+def scheduler(epoch, lr):
+    if epoch < 20:
+        return lr
+    return lr * 0.98
+
+
+print(model)
+# TODO stop hardcoding file paths
 
 history = model.fit(x=training_gen,
                     validation_data=validation_gen,
                     steps_per_epoch=len(training_gen),
                     validation_steps=len(validation_gen),
                     use_multiprocessing=False,
-                    workers=4,
-                    epochs=1000,
+                    workers=8,
+                    epochs=100,
                     verbose=1,
-                    callbacks=[saver, csv_logger])
-
+                    callbacks=[saver, csv_logger, tf.keras.callbacks.LearningRateScheduler(scheduler)])
+# First model trained with batch = 8, second with batch = 4, third with batch = 8 again
+model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
+model.save_weights(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
