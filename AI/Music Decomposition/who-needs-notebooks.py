@@ -19,7 +19,7 @@ from keras.callbacks import CSVLogger
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 print("Imported 1")
-from unet_implementation.decomp_implimentation import Unet
+from unet_implementation.decomp_implimentation_scuffed import Unet
 
 print("Imported 2")
 data_dir_wav = os.path.abspath(r"..\..\Solos-Files\data_files\audio_wav")
@@ -45,16 +45,16 @@ class CustomCheckpoint(tf.keras.callbacks.ModelCheckpoint):
 
 saver = CustomCheckpoint(
     filepath=os.path.abspath(
-        r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_try_3"),
+        r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_scuffed"),
     save_weights_only=True,
     monitor='val_mse',
     save_best_only=False,
     save_freq="epoch"
 )
-print(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
-model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
+print(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_scuffed")
+model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_scuffed")
 csv_logger = CSVLogger(os.path.abspath(
-    r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_history_log.csv"),
+    r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_history_log_scuffed.csv"),
                        append=True)
 
 
@@ -76,6 +76,6 @@ history = model.fit(x=training_gen,
                     epochs=100,
                     verbose=1,
                     callbacks=[saver, csv_logger, tf.keras.callbacks.LearningRateScheduler(scheduler)])
-# First model trained with batch = 8, second with batch = 4, third with batch = 16 again
-model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
-model.save_weights(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
+# First model trained with batch = 8, second with batch = 4, third with batch = 16 again, and scuffed with batch = 4
+model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_scuffed")
+model.save_weights(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_scuffed")

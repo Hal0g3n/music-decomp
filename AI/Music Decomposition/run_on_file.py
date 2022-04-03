@@ -54,7 +54,7 @@ class ModelPredictionWrapper:
 
     def chunks_to_spectograms(self, chunks):
         spectrograms = np.zeros((len(chunks), *(256, 512, 2)))
-        complex_spectrograms = np.zeros((len(chunks), *(256, 512, 1)), dtype = 'complex_')
+        complex_spectrograms = np.zeros((len(chunks), *(256, 512, 1)), dtype='complex_')
 
         for index, chunk in enumerate(chunks):
             sample_stft = librosa.stft(chunk, n_fft=self.ft_window_size, hop_length=self.ft_hop_size,
@@ -69,24 +69,33 @@ class ModelPredictionWrapper:
 
     def call_model(self):
         complex_spectrograms, spectrograms, chunk_count = self.chunks_to_spectograms(self.get_chunks())
-        out_spectrograms = np.zeros((chunk_count, 256, 512, 13), dtype = 'complex_')
+        out_spectrograms = np.zeros((chunk_count, 256, 512, 13), dtype='complex_')
         preds = self.model.predict(spectrograms[:, :, :, 0], batch_size=chunk_count)
+
+        preds = self.model.predict(np.zeros((chunk_count, 256, 512, 1)), batch_size=chunk_count)
         print(preds.shape)
         print(spectrograms.shape)
         print(complex_spectrograms.shape)
+        print(np.mean(preds))
         for i in range(chunk_count):
-            out_spectrograms[i, :, :, :] = complex_spectrograms[i, :, :, :] * preds[i, :, :, :]
+            out_spectrograms[i, :, :, :] = complex_spectrograms[i, :, :, :] * preds[i, :, :, :] * 10
         out_spectrograms = np.swapaxes(out_spectrograms, 1, 2)
+        preds = np.swapaxes(preds, 1, 2)  # Temp
         fig, ax = plt.subplots(1, 2)
 
-        istft = librosa.istft(out_spectrograms[31, :, :, 0], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
-                              win_length=)
+        istft = librosa.istft(out_spectrograms[31, :, :, 11], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
+                              window=self.window)
         sf.write(self.temp_dir + fr"\test.wav", istft, 8000)
 
-        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 0]),
+        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 12]),
                                     ref=np.max)
-        librosa.display.specshow(D, y_axis='log', sr=8000, hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
-                                 x_axis='time', ax=ax[0])
+        img = librosa.display.specshow(D, y_axis='log', sr=8000, hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
+                                       x_axis='time', ax=ax[0])
+        E = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 12]),
+                                    ref=np.max)
+        img = librosa.display.specshow(D, y_axis='log', sr=8000, hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
+                                       x_axis='time', ax=ax[1])
+        fig.colorbar(img, ax=ax, format="%+2.f dB")
         fig.show()
 
 
