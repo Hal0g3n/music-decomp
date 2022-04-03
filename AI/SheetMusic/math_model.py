@@ -1,7 +1,8 @@
 import librosa
-from utils import createMIDI
+import numpy as np
+from .utils import createMIDI
 
-def librosaModel(song, rate, instrument, Prob_threshold = 0.5):
+def librosaModel(song, rate, instrument, prob_threshold = 0.5):
 
     """=================Below functions use math to estimate the pitch================="""
     
@@ -42,11 +43,13 @@ def librosaModel(song, rate, instrument, Prob_threshold = 0.5):
     audio = np.hstack([[0], audio])
 
     # Retrieves the head of notes
-    onset_boundaries = librosa.onset.onset_detect(
-        audio,
-        sr=rate, units='samples', 
-        backtrack = False,
-    )
+    onset_boundaries = np.concatenate([[0], 
+        librosa.onset.onset_detect(
+            audio,
+            sr=rate, units='samples', 
+            backtrack = False,
+        )
+    ])
 
     # Generates a sine wave for each segment (Head of note to head of next note)
     y = np.concatenate([
@@ -59,7 +62,7 @@ def librosaModel(song, rate, instrument, Prob_threshold = 0.5):
     C = (C - C.min()) / (C.max() - C.min())
 
     # Set only 1 note to be played at any time
-    C = np.apply_along_axis(lambda x: ((x == x.max()) & (x > actlProb_threshold)), axis=1, arr=C.T)
+    C = np.apply_along_axis(lambda x: ((x == x.max()) & (x > prob_threshold)), axis=1, arr=C.T)
 
     # Create the MIDI Object to use
     return createMIDI(song = y, rate = rate, instrument = instrument, actlProb = C, actlProb_threshold = 0.9)

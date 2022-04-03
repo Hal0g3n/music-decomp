@@ -1,16 +1,15 @@
 from tkinter import *
 import tkinter.ttk as ttk
-from tkinter.filedialog import askopenfilename as openfile
-#from tkinter.filedialog import saveasfilename as save
+from tkinter.filedialog import askopenfilename as openfile, asksaveasfilename as savefile
 from pygame import mixer
 
-# A global variable, storing the data gotten from the model
-results = {i: "Results" for i in ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute',
-                        'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin']}
+# Making the model seen from this file
+import sys
+sys.path.insert(1, '../')
 
-def runModel(url):
-    # Model has failed us
-    pass
+from AI.SheetMusic.math_model import *
+from AI.SheetMusic.math_model import *
+
 
 class VerticalScrolledFrame(Frame):
     """A pure Tkinter scrollable frame that actually works!
@@ -56,29 +55,6 @@ class VerticalScrolledFrame(Frame):
                 canvas.itemconfigure(interior_id, width=canvas.winfo_width())
         canvas.bind('<Configure>', _configure_canvas)
 
-class CardView(ttk.Frame):
-    def __init__(self, parent, instrument):
-        super().__init__(parent)
-        self.pack(fill=X, expand=1)
-
-        # Initialise the label for instrument name
-        instrumentLabel = Label(self, text = instrument)
-        instrumentLabel.pack(side=TOP, anchor = NW)
-
-        # Initialise the button to save audio
-        audioButton = ttk.Button(self, text="Save Audio", command=self.saveAudio)
-        audioButton.pack(side="left")
-
-        # Initialise the button to save sheet music
-        sheetButton = ttk.Button(self, text="Save Sheet", command=self.saveSheet)
-        sheetButton.pack(side="left")
-
-    def saveAudio(self): pass
-        # save() ...
-
-    def saveSheet(self): pass
-        # save() ...
-
 
 class ButtonMenu(ttk.Frame):
     def __init__(self, parent):
@@ -108,8 +84,8 @@ class ButtonMenu(ttk.Frame):
         self.stopButton["state"] = "disabled"
         self.stopButton.pack(side=LEFT)
 
-        self.showButton = ttk.Button(self, text="Decompose", command=self.decompose)
-        self.showButton.pack(side=LEFT)
+        self.transcribeButton = ttk.Button(self, text="Transcribe", command=self.transcribe)
+        self.transcribeButton.pack(side=LEFT)
 
         self.urlLabel = ttk.Label(self, text="")
         self.urlLabel.pack(side=LEFT, padx=6)
@@ -117,11 +93,12 @@ class ButtonMenu(ttk.Frame):
 
     def open(self):
         # Opens system dialog to select music file
-        openlocation = openfile(parent=self.root, title="Select music file to open:")
+        openlocation = openfile(parent=self.root, title="Select music file to open", filetype = [
+            ("music", "*.wav")
+        ])
 
         # Set Path Variable
         self.url.set(openlocation)
-
         
         self.urlLabel["text"] = openlocation.split("/")[-1]
 
@@ -142,13 +119,13 @@ class ButtonMenu(ttk.Frame):
     def pause(self):
         if self.isPaused.get():
             mixer.music.unpause()
-            self.pauseButton["text"] = "Pause Music File"
-            self.stopButton["text"] = "Stop Music File"
+            self.pauseButton["text"] = "Pause Music"
+            self.stopButton["text"] = "Stop Music"
 
         else:
             mixer.music.pause()
-            self.pauseButton["text"] = "Unpause Music File"
-            self.stopButton["text"] = "Reset Music File"
+            self.pauseButton["text"] = "Unpause Music"
+            self.stopButton["text"] = "Restart Music"
 
         self.isPlaying.set(not self.isPlaying.get())
         self.isPaused.set(not self.isPaused.get())
@@ -168,16 +145,15 @@ class ButtonMenu(ttk.Frame):
         self.isPlaying.set(False)
         self.isPaused.set(False)
 
-    def decompose(self):
-        global results
-        runModel(self.url.get())
+    def transcribe(self):
+        # Opens system dialog to select music file
+        savelocation = savefile(parent=self.root, title="Select music file to open:", defaultextension = ".mid")
 
-        # For every instrument, create 2 buttons for it
-        # This is so the user can save the seperated audio files
-        for i in results:
-            CardView(self.parent, i)
+        audio, rate = librosa.load(self.url.get())
+        midi = librosaModel(audio, rate, "Grand Acoustic Piano")
+        midi.write(savelocation)
         
-
+        
 
 class MainFrame(VerticalScrolledFrame):
     def __init__(self, parent, init_url = ''):
@@ -195,9 +171,6 @@ if __name__ == "__main__":
 
     # Pygame mixer for audio playing
     mixer.init()
-
-    # Some window settings
-    root.state('zoomed')
 
     # Initialise the main frame
     MainFrame(root)
