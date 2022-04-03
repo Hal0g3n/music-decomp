@@ -69,15 +69,21 @@ class ModelPredictionWrapper:
 
     def call_model(self):
         complex_spectrograms, spectrograms, chunk_count = self.chunks_to_spectograms(self.get_chunks())
-        out_spectrograms = np.zeros((chunk_count, 256, 512, 13))
+        out_spectrograms = np.zeros((chunk_count, 256, 512, 13), dtype = 'complex_')
         preds = self.model.predict(spectrograms[:, :, :, 0], batch_size=chunk_count)
         print(preds.shape)
         print(spectrograms.shape)
         print(complex_spectrograms.shape)
         for i in range(chunk_count):
             out_spectrograms[i, :, :, :] = complex_spectrograms[i, :, :, :] * preds[i, :, :, :]
+        out_spectrograms = np.swapaxes(out_spectrograms, 1, 2)
         fig, ax = plt.subplots(1, 2)
-        D = librosa.amplitude_to_db(np.abs(out_spectrograms[0, :, :, :]),
+
+        istft = librosa.istft(out_spectrograms[31, :, :, 0], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
+                              win_length=)
+        sf.write(self.temp_dir + fr"\test.wav", istft, 8000)
+
+        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 0]),
                                     ref=np.max)
         librosa.display.specshow(D, y_axis='log', sr=8000, hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
                                  x_axis='time', ax=ax[0])
