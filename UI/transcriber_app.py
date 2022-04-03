@@ -147,12 +147,11 @@ class ButtonMenu(ttk.Frame):
 
     def transcribe(self):
         # Opens system dialog to select music file
-        savelocation = savefile(parent=self.root, title="Select music file to open:", defaultextension = ".mid")
+        savelocation = savefile(parent=self.root, title="Select music file to open:", filetypes = [("music", ".mid")], defaultextension = [("MIDI",".mid")])
 
         audio, rate = librosa.load(self.url.get())
-        midi = librosaModel(audio, rate, "Grand Acoustic Piano")
+        midi = librosaModel(audio, rate, "Acoustic Grand Piano")
         midi.write(savelocation)
-        
         
 
 class MainFrame(VerticalScrolledFrame):
@@ -172,6 +171,7 @@ if __name__ == "__main__":
     # Pygame mixer for audio playing
     mixer.init()
 
+    messagebox.showinfo(title="Music Transcription", message=f"Transcription Success, saved at {savelocation}", **options)
     # Initialise the main frame
     MainFrame(root)
 
