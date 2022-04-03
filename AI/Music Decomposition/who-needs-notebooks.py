@@ -45,14 +45,14 @@ class CustomCheckpoint(tf.keras.callbacks.ModelCheckpoint):
 
 saver = CustomCheckpoint(
     filepath=os.path.abspath(
-        r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_try_2"),
+        r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_try_3"),
     save_weights_only=True,
     monitor='val_mse',
     save_best_only=False,
     save_freq="epoch"
 )
-print(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_2")
-model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_2")
+print(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
+model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
 csv_logger = CSVLogger(os.path.abspath(
     r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\model_history_log.csv"),
                        append=True)
@@ -76,6 +76,6 @@ history = model.fit(x=training_gen,
                     epochs=100,
                     verbose=1,
                     callbacks=[saver, csv_logger, tf.keras.callbacks.LearningRateScheduler(scheduler)])
-# First model trained with batch = 8, second with batch = 4, third with batch = 8 again
+# First model trained with batch = 8, second with batch = 4, third with batch = 16 again
 model.save(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")
 model.save_weights(r"C:\Users\User\Documents\GitHub\music-decomp\AI\Music Decomposition\saved_models\models_try_3")

@@ -13,7 +13,7 @@ import soundfile as sf
 
 class SolosDataGenerator(Sequence):
     def __init__(self, data_dir, mix_no_min=2, training=True, mix_sources_max_no=4, mix_no_max=5, train_test_split=0.8,
-                 batch_size=8, load_into_ram=False):
+                 batch_size=16, load_into_ram=False):
         # The paper sets mix_no_max to 7, but who has 7 different instruments in a normal song
 
         self.data_dir = data_dir
