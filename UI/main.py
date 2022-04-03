@@ -96,18 +96,18 @@ class ButtonMenu(ttk.Frame):
         self.openButton = ttk.Button(self, text = "Open Music File", command=self.open)
         self.openButton.pack(side=LEFT)
 
-        self.playButton = ttk.Button(self, text="Play Music File", command=self.play)
+        self.playButton = ttk.Button(self, text="Play Music", command=self.play)
         self.playButton.pack(side=LEFT)
 
-        self.pauseButton = ttk.Button(self, text="Pause Music File", command=self.pause)
+        self.pauseButton = ttk.Button(self, text="Pause Music", command=self.pause)
         self.pauseButton["state"] = "disabled"
         self.pauseButton.pack(side=LEFT)
 
-        self.stopButton = ttk.Button(self, text="Stop Music File", command=self.stop)
+        self.stopButton = ttk.Button(self, text="Stop Music", command=self.stop)
         self.stopButton["state"] = "disabled"
         self.stopButton.pack(side=LEFT)
 
-        self.showButton = ttk.Button(self, text="Decompose Music File", command=self.decompose)
+        self.showButton = ttk.Button(self, text="Decompose", command=self.decompose)
         self.showButton.pack(side=LEFT)
 
         self.urlLabel = ttk.Label(self, text="")
@@ -184,7 +184,8 @@ class MainFrame(VerticalScrolledFrame):
         self.parent = parent
         self.pack(fill=BOTH, expand=1)
 
-        ButtonMenu(self.interior)
+        self.buttonMenu = ButtonMenu(self.interior)
+        
 
 # Driver Code
 if __name__ == "__main__":
