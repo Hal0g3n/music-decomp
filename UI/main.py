@@ -1,15 +1,22 @@
+from tkinter import messagebox
 from tkinter import *
 import tkinter.ttk as ttk
-from tkinter.filedialog import askopenfilename as openfile
-#from tkinter.filedialog import saveasfilename as save
+from tkinter.filedialog import askopenfilename as openfile, asksaveasfilename as savefile
 from pygame import mixer
 
+# Making the model seen from this file
+import sys
+sys.path.insert(1, '../')
+from AI.SheetMusic.math_model import *
+
+
 # A global variable, storing the data gotten from the model
-results = {i: "Results" for i in ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute',
-                        'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin']}
+results = {i: ("AUDIO", "RATE", "MIDI") # !The format of the data should be as follows (if it exists help check for that @VikramRamanathan)
+            for i in ['Bassoon', 'Cello', 'Clarinet', 'DoubleBass', 'Flute', 'Horn', 'Oboe', 'Saxophone', 'Trombone', 'Trumpet', 'Tuba', 'Viola', 'Violin']}
 
 def runModel(url):
-    # Model has failed us
+    # TODO: Vikram get the model here
+    # * Use my model with librosaModel(audio, rate) audio and rate can be obtained from librosa.istft()
     pass
 
 class VerticalScrolledFrame(Frame):
@@ -17,7 +24,6 @@ class VerticalScrolledFrame(Frame):
     * Use the 'interior' attribute to place widgets inside the scrollable frame
     * Construct and pack/place/grid normally
     * This frame only allows vertical scrolling
-    (I totally did not copy this online)
     """
     def __init__(self, parent, *args, **kw):
         Frame.__init__(self, parent, *args, **kw)            
@@ -121,7 +127,7 @@ class ButtonMenu(ttk.Frame):
 
         # Set Path Variable
         self.url.set(openlocation)
-
+        self.music = mixer.Sound(openlocation)
         
         self.urlLabel["text"] = openlocation.split("/")[-1]
 
@@ -132,8 +138,7 @@ class ButtonMenu(ttk.Frame):
             pause()
 
         elif len(self.url.get()) and not self.isPlaying.get():
-            mixer.music.load(self.url.get())
-            mixer.music.play()
+            self.music.play()
             self.isPlaying.set(True)
             self.playButton["state"] = "disabled"
             self.pauseButton["state"] = "normal"
@@ -142,24 +147,24 @@ class ButtonMenu(ttk.Frame):
     def pause(self):
         if self.isPaused.get():
             mixer.music.unpause()
-            self.pauseButton["text"] = "Pause Music File"
-            self.stopButton["text"] = "Stop Music File"
+            self.pauseButton["text"] = "Pause Music"
+            self.stopButton["text"] = "Stop Music"
 
         else:
             mixer.music.pause()
-            self.pauseButton["text"] = "Unpause Music File"
-            self.stopButton["text"] = "Reset Music File"
+            self.pauseButton["text"] = "Resume Music"
+            self.stopButton["text"] = "Reset Music"
 
         self.isPlaying.set(not self.isPlaying.get())
         self.isPaused.set(not self.isPaused.get())
 
     def stop(self):
         if self.isPlaying.get():
-            mixer.music.fadeout(1000)
+            self.music.fadeout(1000)
 
         elif self.isPaused.get():
             self.pause()
-            mixer.music.fadeout(0)
+            self.music.fadeout(0)
 
         self.pauseButton["state"] = "disabled"
         self.stopButton["state"] = "disabled"
