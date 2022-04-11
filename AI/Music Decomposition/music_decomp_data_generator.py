@@ -161,8 +161,8 @@ class SolosDataGenerator(Sequence):
 
     def _compute_masks(self):
 
-        sources = self.spectrograms[:, :13, :, :, 0]
-        x = self.spectrograms[:, 13, :, :, :1]
+        sources = self.spectrograms[:, :, :, :, 0]
+        x = self.spectrograms[:, 13, :, :, 1:]
         # x = np.expand_dims(x, axis=1)
 
         y = sources / np.expand_dims(np.sum(sources, axis=1), axis=1)

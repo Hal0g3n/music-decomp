@@ -3,6 +3,6 @@
 Solos-Files/data_files/audio_wav/
 .idea/misc.xml
 .idea/workspace.xml
-.idea/workspace.xml
 musicnet/
 /AI/Music Decomposition/saved_models/
+/AI/conditioned-u-net-master/

@@ -22,7 +22,7 @@ class ModelPredictionWrapper:
         self.dummy_spectrogram_size = (14, 256, 512, 2)
         ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..' + os.sep + '..'))
         self.temp_dir = fr"{ROOT}\UI\temp"
-        self.model = load_model(fr"{ROOT}\AI\Music Decomposition\saved_models\models_try_2")
+        self.model = load_model(fr"{ROOT}\AI\Music Decomposition\saved_models\model_scuffed")
         os.makedirs(self.temp_dir, exist_ok=True)
 
     def file_to_wav(self, filename):
@@ -69,10 +69,10 @@ class ModelPredictionWrapper:
 
     def call_model(self):
         complex_spectrograms, spectrograms, chunk_count = self.chunks_to_spectograms(self.get_chunks())
-        out_spectrograms = np.zeros((chunk_count, 256, 512, 13), dtype='complex_')
+        out_spectrograms = np.zeros((chunk_count, 256, 512, 14), dtype='complex_')
         preds = self.model.predict(spectrograms[:, :, :, 0], batch_size=chunk_count)
 
-        preds = self.model.predict(np.ones((chunk_count, 256, 512, 1)), batch_size=chunk_count)
+        #preds = self.model.predict(np.ones((chunk_count, 256, 512, 1)), batch_size=chunk_count)
         print(preds.shape)
         print(spectrograms.shape)
         print(complex_spectrograms.shape)
@@ -83,12 +83,12 @@ class ModelPredictionWrapper:
         preds = np.swapaxes(preds, 1, 2)  # Temp
         fig, ax = plt.subplots()
 
-        istft = librosa.istft(out_spectrograms[31, :, :, 12], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
+
+        istft = librosa.istft(out_spectrograms[31, :, :, 10], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
                               window=self.window)
         sf.write(self.temp_dir + fr"\test.wav", istft, 8000)
 
-        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 12]),
-                                    ref=np.max)
+        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 10]), ref=np.max)
         img = librosa.display.specshow(D, y_axis='log', sr=8000, hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
                                        x_axis='time', ax=ax)
         fig.colorbar(img, ax=ax, format="%+2.f dB")
