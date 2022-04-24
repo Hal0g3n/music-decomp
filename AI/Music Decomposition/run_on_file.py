@@ -78,17 +78,17 @@ class ModelPredictionWrapper:
         print(complex_spectrograms.shape)
         print(np.mean(preds))
         for i in range(chunk_count):
-            out_spectrograms[i, :, :, :] = complex_spectrograms[i, :, :, :] * preds[i, :, :, :] * 10
+            out_spectrograms[i, :, :, :] = complex_spectrograms[i, :, :, :] * preds[i, :, :, :]
         out_spectrograms = np.swapaxes(out_spectrograms, 1, 2)
         preds = np.swapaxes(preds, 1, 2)  # Temp
         fig, ax = plt.subplots()
 
 
-        istft = librosa.istft(out_spectrograms[31, :, :, 10], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
+        istft = librosa.istft(out_spectrograms[31, :, :, 13], hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
                               window=self.window)
         sf.write(self.temp_dir + fr"\test.wav", istft, 8000)
 
-        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 10]), ref=np.max)
+        D = librosa.amplitude_to_db(np.abs(out_spectrograms[31, :, :, 13]), ref=np.max)
         img = librosa.display.specshow(D, y_axis='log', sr=8000, hop_length=self.ft_hop_size, n_fft=self.ft_window_size,
                                        x_axis='time', ax=ax)
         fig.colorbar(img, ax=ax, format="%+2.f dB")
