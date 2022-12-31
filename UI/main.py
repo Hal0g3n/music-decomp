@@ -128,7 +128,7 @@ class ButtonMenu(ttk.Frame):
         self.playButton = ttk.Button(self, text="Play Music", command=self.play)
         self.playButton.pack(side=LEFT)
 
-        self.stopButton = ttk.Button(self, text="Reset Music", command=self.stop)
+        self.stopButton = ttk.Button(self, text="Stop Music", command=self.stop)
         self.stopButton["state"] = "disabled"
         self.stopButton.pack(side=LEFT)
 
@@ -195,6 +195,9 @@ class MainFrame(VerticalScrolledFrame):
 if __name__ == "__main__":
     # Window
     root = Tk()
+
+    # Window Title
+    root.title("Music Decomposer")
 
     # Pygame mixer for audio playing
     mixer.init()
